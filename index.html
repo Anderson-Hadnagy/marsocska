@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Sci-Fi Interface</title>
+<link rel="stylesheet" href="style/main.css">
+
+</head>
+
+<body>
+
+<div class="titlebar">
+  <div class="window-border window-top-left">
+    <svg width="20" height="20">
+      <line x1="0" y1="20" x2="20" y2="0" stroke="#00ffff" stroke-width="2" />
+    </svg>
+  </div>
+  <div class="window-border window-top-right"></div>
+  <div class="window-border window-top">
+    <div class="title">MARS ROVER NAVIGATION SYSTEM</div>
+    <div class="window-controls">
+      <button onclick="window.api.minimize()">—</button>
+      <button onclick="window.api.maximize()">□</button>
+      <button onclick="window.api.close()">X</button>
+    </div>
+  </div>
+  
+</div>
+<div class="window-borders-top-excluded">
+  <div class="window-border window-left"></div>
+  <div class="window-border window-right"></div>
+  <div class="window-border window-bottom"></div>
+
+  <div class="window-border window-bottom-left"></div>
+  <div class="window-border window-bottom-right"></div>
+</div>
+
+<div class="window-content">
+  <div class="panel">
+    <div class="glow">SYSTEM ONLINE</div>
+    <p>Navigation core initialized.</p>
+  </div>
+</div>
+
+</body>
+</html>
