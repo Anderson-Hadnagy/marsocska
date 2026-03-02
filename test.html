@@ -3,95 +3,133 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sci-Fi Terminal Window</title>
   <style>
-    /* 1. Environment Setup */
+    :root {
+      --border-color: #00e5ff10; /* Cyan neon color */
+      --bg-color: rgba(13, 25, 51, 0.37); /* Semi-transparent dark background */
+      --border-width: 2px;
+      
+      /* Size of the corner cuts */
+      --cut-size-outer: 25px;
+      /* Mathematically scales the inner cut so the border thickness remains perfectly even */
+      --cut-size-inner: calc(var(--cut-size-outer) - (var(--border-width) * 0.5858));
+    }
+
     body {
-      background-color: #050914; /* Deep space blue/black */
-      color: #00ffff; /* Neon Cyan */
-      font-family: 'Courier New', Courier, monospace;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
+      /* Set to transparent for Electron, using a dark color here just for web preview */
+      background-color: transparent; 
+      color: #00e5ff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
+      padding: 20px; /* Padding to show the drop-shadow inside the window bounds */
+      box-sizing: border-box;
     }
 
-    /* 2. The Window Styling */
-    .sci-fi-window {
-      width: 450px;
-      min-height: 200px;
-      padding: 10px 20px;
-      position: relative;
-      background: rgba(0, 255, 255, 0.03); /* Faint tint inside the box */
-      
-      /* 3. The Border Image Magic */
-      border-style: solid;
-      /* The width dictates how thick the border renders on the screen */
-      border-width: 33px; 
-      
-      /* The SVG data URI containing our custom corners and edges */
-      border-image-source: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 99 99' width='99' height='99'><g stroke='%2300ffff' fill='none' stroke-width='2'><path d='M33 2 L15 2 L2 15 L2 33'/><path d='M8 18 L8 28' stroke-width='4'/><path d='M66 2 L84 2 L97 15 L97 33'/><path d='M91 18 L91 28' stroke-width='4'/><path d='M33 97 L15 97 L2 84 L2 66'/><path d='M8 71 L8 81' stroke-width='4'/><path d='M66 97 L84 97 L97 84 L97 66'/><path d='M91 71 L91 81' stroke-width='4'/><line x1='33' y1='2' x2='66' y2='2'/><line x1='33' y1='97' x2='66' y2='97'/><line x1='2' y1='33' x2='2' y2='66'/><line x1='97' y1='33' x2='97' y2='66'/></g><g fill='%2300ffff'><rect x='15' y='15' width='4' height='4'/><rect x='80' y='15' width='4' height='4'/><rect x='15' y='80' width='4' height='4'/><rect x='80' y='80' width='4' height='4'/></g></svg>");
-      
-      /* Slices the 99x99 SVG at 33px from the top, right, bottom, and left */
-      border-image-slice: 33; 
-      /* Stretches the middle segments instead of tiling them */
-      border-image-repeat: stretch; 
-      
-      /* 4. Glow Effect */
-      filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.4));
+    /* Wrapper to apply a glow effect. 
+      Regular box-shadow gets clipped by clip-path, so we use filter: drop-shadow on a parent.
+    */
+    .sci-fi-wrapper {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.4));
     }
 
-    /* 5. Typography and Interior Elements */
-    .header {
+    .sci-fi-border {
+      background: var(--border-color);
+      padding: var(--border-width);
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      
+      /* Cuts the Top-Left and Bottom-Right corners */
+      clip-path: polygon(
+        var(--cut-size-outer) 0, 
+        100% 0, 
+        100% calc(100% - var(--cut-size-outer)), 
+        calc(100% - var(--cut-size-outer)) 100%, 
+        0 100%, 
+        0 var(--cut-size-outer)
+      );
+    }
+
+    .sci-fi-app {
+      background: var(--bg-color);
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+
+      /* Matches the outer cut, adjusted for border width */
+      clip-path: polygon(
+        var(--cut-size-inner) 0, 
+        100% 0, 
+        100% calc(100% - var(--cut-size-inner)), 
+        calc(100% - var(--cut-size-inner)) 100%, 
+        0 100%, 
+        0 var(--cut-size-inner)
+      );
+    }
+
+    /* --- Electron Specific UI --- */
+
+    .titlebar {
+      /* This tells Electron to make this area draggable */
+      -webkit-app-region: drag; 
+      height: 40px;
       display: flex;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(0, 255, 255, 0.3);
-      padding-bottom: 5px;
-      margin-bottom: 15px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 1.2rem;
-      text-transform: uppercase;
+      align-items: center;
+      padding: 0 15px;
+      background: rgba(0, 229, 255, 0.1);
+      border-bottom: 1px solid rgba(0, 229, 255, 0.3);
+      font-weight: bold;
       letter-spacing: 2px;
-      text-shadow: 0 0 5px #00ffff;
+      user-select: none;
     }
 
-    .status {
-      font-size: 0.8rem;
-      color: #ff0055; /* Contrast color for status */
-      animation: blink 1.5s infinite;
+    .close-btn {
+      /* You must exclude buttons from the drag region so they can be clicked */
+      -webkit-app-region: no-drag; 
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--border-color);
+      cursor: pointer;
+      padding: 2px 8px;
+      font-weight: bold;
+      transition: all 0.2s ease;
     }
 
-    p {
-      font-size: 0.95rem;
-      line-height: 1.6;
-      color: #a0e6ff;
+    .close-btn:hover {
+      background: var(--border-color);
+      color: #000;
     }
 
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+    .content {
+      padding: 20px;
+      flex-grow: 1;
+      overflow-y: auto; /* Adds scrolling if content gets too long */
     }
   </style>
+  <title>Document</title>
 </head>
 <body>
+  <div class="sci-fi-wrapper">
+    <div class="sci-fi-border">
+      <div class="sci-fi-app">
+        
+        <div class="titlebar">
+          <span>UPLINK_TERMINAL</span>
+          <button class="close-btn">X</button>
+        </div>
 
-  <div class="sci-fi-window">
-    <div class="header">
-      <h1>Mainframe Access</h1>
-      <span class="status">REC ◉</span>
+        <div class="content">
+          <p>System initialized. Awaiting input...</p>
+        </div>
+
+      </div>
     </div>
-    <p>
-      > SYSTEM INITIALIZATION SEQUENCE...<br>
-      > BYPASSING FIREWALL PROXY...<br>
-      > ACCESS GRANTED.<br>
-      <br>
-      Welcome to the network, Operator. Your local coordinates have been synced. Awaiting command input.
-    </p>
   </div>
-
 </body>
 </html>
