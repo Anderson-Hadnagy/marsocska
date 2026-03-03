@@ -1,7 +1,7 @@
 /*VARIABLES*/
 :root {
   --border-color: #006eff;
-  --main-color: #006eff;
+  --main-color: rgb(0, 110, 255);
   --main-color-transparent: rgba(0, 110, 255, 0.5);
   --main-color-transparent-bg: rgba(0, 110, 255, 0.2);
   --debug-color: #ff0000be;
@@ -36,6 +36,10 @@ body {
   width: 100%;
   height: 100%;
   filter: drop-shadow(0 0 8px var(--main-color-transparent));
+}
+
+.window-open-animation {
+  animation: window-open 0.5s ease-out 1;
 }
 
 .window-border-wrapper {
@@ -77,8 +81,9 @@ body {
 
 /*WINDOW TITLEBAR*/
 .titlebar {
+  min-height: 40px;
   height: 40px;
-    display: flex;
+  display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 15px;
@@ -86,7 +91,9 @@ body {
   backdrop-filter: blur(10px);
   -webkit-app-region: drag;
   border-bottom: 1px solid var(--main-color-transparent);
-  border-top: 1px solid var(--main-color-transparent);
+  box-sizing: border-box;
+  position: relative;
+  z-index: 900;
 }
 
 /*TITLEBAR ELEMENTS*/
@@ -154,6 +161,21 @@ body {
   pointer-events: none;
 }
 
+.segment14 {
+  font-family: DSEG14Classic;
+  font-size: 20px;
+  color: var(--main-color);
+  text-shadow: 0 0 10px var(--main-color);
+}
+
+.segment7{
+  font-family: DSEG7Classic;
+  font-size: 20px;
+  color: var(--main-color);
+  text-shadow: 0 0 10px var(--main-color);
+  font-weight: bold;
+}
+
 /*MAP*/
 
 .map-container {
@@ -169,13 +191,154 @@ body {
 
 }
 
+/*DASHBOARD*/
+
+.dashboard {
+  width: 100%;
+  height: 175px;
+  display: flex;
+}
+
+.dash-col {
+  flex: 1;
+  border: 1px solid var(--main-color-transparent);
+  margin: 0 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dash-item {
+  flex: auto;
+  width: 100%;
+  flex-direction: column;
+  padding: 10px;
+}
+
+/*COOL VISUALIZATIONS*/
+
+.day-night-visualization-wrapper {
+  position: absolute;
+  top: 40px;
+  width: 100%;
+  height: 50%;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+.day-night-visualization {
+  position: absolute;
+  width: 100%;
+  height: 200%;
+  pointer-events: none;
+  clip-path: inset(0 0 50% 0); /*Display only the half of this very very cool visualizaton yee*/
+}
+
+.sun {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: radial-gradient(circle at center, #ffdd00, #ff9900);
+  border-radius: 50%;
+  box-shadow: 0 0 30px #ffdd00;
+}
+
+.moon {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: radial-gradient(circle at center, #ffffff, #cccccc);
+  border-radius: 50%;
+  box-shadow: 0 0 30px #ffffff;
+}
+
+/*ANIMATIONS*/
+
 @keyframes pulse {
   0% { opacity: 0.3; }
   50% { opacity: 1; }
   100% { opacity: 0.3; }
 }
 
+@keyframes window-open {
+  0% {
+    transform: scale(0, 0);
+  }
+  50% {
+    transform: scale(1, 0.01);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+/*FONTS*/
+
 @font-face{
     font-family: Conthrax;
     src: url('../fonts/Conthrax-SemiBold.otf') format('opentype');
+}
+
+
+
+@font-face {
+  font-family: DSEG14Classic;
+  src: url('../fonts/DSEG14-Classic/DSEG14Classic-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: DSEG14Classic;
+  src: url('../fonts/DSEG14-Classic/DSEG14Classic-Bold.ttf') ;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: DSEG14Classic;
+  src: url('../fonts/DSEG14-Classic/DSEG14Classic-Italic.ttf');
+  font-style: italic;
+}
+
+@font-face {
+  font-family: DSEG14Classic;
+  src: url('../fonts/DSEG14-Classic/DSEG14Classic-Light.ttf') ;
+  font-weight: light;
+}
+
+@font-face {
+  font-family: DSEG14Classic;
+  src: url('../fonts/DSEG14-Classic/DSEG14Classic-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+
+
+@font-face {
+  font-family: DSEG7Classic;
+  src: url('../fonts/DSEG7-Classic/DSEG7Classic-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: DSEG7Classic;
+  src: url('../fonts/DSEG7-Classic/DSEG7Classic-Bold.ttf') ;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: DSEG7Classic;
+  src: url('../fonts/DSEG7-Classic/DSEG7Classic-Italic.ttf');
+  font-style: italic;
+}
+
+@font-face {
+  font-family: DSEG7Classic;
+  src: url('../fonts/DSEG7-Classic/DSEG7Classic-Light.ttf') ;
+  font-weight: light;
+}
+
+@font-face {
+  font-family: DSEG7Classic;
+  src: url('../fonts/DSEG7-Classic/DSEG7Classic-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
 }

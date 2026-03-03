@@ -6,7 +6,7 @@ function createWindow() {
         devTools: true,
         width: 1200,
         height: 800,
-        frame: true,
+        frame: false,
         titleBarStyle: 'hidden',
         transparent: true,
         resizable: false,
