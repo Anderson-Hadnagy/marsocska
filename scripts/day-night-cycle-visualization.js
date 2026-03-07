@@ -27,7 +27,6 @@ function updateDayNightVisualization(time)
     rgba(${1}, ${100}, ${240}, ${Math.max(0.8 * Math.sin(-angle)/3, 0)}))`;
     dayNightVisualizationWrapper.style.boxShadow = 
     `0 0 30px rgba(0, 110, 255, ${Math.max(Math.sin(-angle)/3, 0)})`;
-    console.log(dayNightVisualizationWrapper.style.boxShadow);
 }
 
 function sleep(ms) {

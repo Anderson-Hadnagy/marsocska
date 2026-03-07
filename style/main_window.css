@@ -2,6 +2,7 @@
 :root {
   --border-color: #006eff;
   --main-color: rgb(0, 110, 255);
+  --main-color-neon: rgb(127, 181, 252);
   --main-color-transparent: rgba(0, 110, 255, 0.5);
   --main-color-transparent-bg: rgba(0, 110, 255, 0.2);
   --debug-color: #ff0000be;
@@ -80,6 +81,7 @@ body {
 }
 
 /*WINDOW TITLEBAR*/
+
 .titlebar {
   min-height: 40px;
   height: 40px;
@@ -88,12 +90,30 @@ body {
   align-items: center;
   padding: 0 15px;
   background: var(--main-color-transparent-bg);
-  backdrop-filter: blur(10px);
   -webkit-app-region: drag;
   border-bottom: 1px solid var(--main-color-transparent);
   box-sizing: border-box;
   position: relative;
   z-index: 900;
+}
+
+.titlebar-ghost{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin-top: 22px;
+  margin-left: 22px;
+  margin-right: 22px;
+  width: calc(100% - 42px);
+  background: none;
+  backdrop-filter: none;
+  border: none;
+  opacity: 0;
+  animation: fade 0.5s linear 0.5s forwards;
+}
+
+.titlebar-ghost>.title{
+  opacity: 0;
 }
 
 /*TITLEBAR ELEMENTS*/
@@ -164,15 +184,16 @@ body {
 .segment14 {
   font-family: DSEG14Classic;
   font-size: 20px;
-  color: var(--main-color);
-  text-shadow: 0 0 10px var(--main-color);
+  color: var(--main-color-neon);
+  text-shadow: 0 0 5px var(--main-color-neon);
 }
 
 .segment7{
   font-family: DSEG7Classic;
   font-size: 20px;
-  color: var(--main-color);
-  text-shadow: 0 0 10px var(--main-color);
+  color: var(--main-color-neon);
+  text-shadow: 0 0 10px var(--main-color-neon);
+  text-shadow: 0 0 5px var(--main-color-neon);
   font-weight: bold;
 }
 
@@ -193,9 +214,23 @@ body {
 
 /*DASHBOARD*/
 
+.map-section{
+  max-height: 400px;
+}
+
+.flex-container-col{
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-container-row{
+  display: flex;
+  flex-direction: row;
+}
+
 .dashboard {
   width: 100%;
-  height: 175px;
+  height: 160px;
   display: flex;
 }
 
@@ -207,18 +242,51 @@ body {
   flex-direction: column;
 }
 
+.dash-row {
+  flex: 1;
+  border: 1px solid var(--main-color-transparent);
+  margin: 0 10px;
+  display: flex;
+  flex-direction: row;
+}
+
 .dash-item {
   flex: auto;
   width: 100%;
+  height: 100%;
   flex-direction: column;
   padding: 10px;
+  
+}
+
+.dash-item-sidebar{
+  border: 1px solid var(--main-color-transparent);
+  background: var(--main-color-transparent-bg);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 10px var(--main-color-transparent);
+  padding: 10px;
+}
+
+.vertical-bar-container {
+  width: 20px;
+  border: 1px solid var(--main-color-transparent);
+  height: 100%;
+  display: flex;
+}
+
+.vertical-bar{
+  margin-top: auto;
+  height: 100%;
+  writing-mode: vertical-lr;
+  text-align: center;
+  background-color: var(--border-color);
 }
 
 /*COOL VISUALIZATIONS*/
 
 .day-night-visualization-wrapper {
   position: absolute;
-  top: 40px;
+  top: 42px;
   width: 100%;
   height: 50%;
   margin: 0;
@@ -269,6 +337,15 @@ body {
   }
   100% {
     transform: scale(1, 1);
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 

@@ -5,29 +5,23 @@
   <title>Sci-Fi Interface</title>
   <link rel="stylesheet" href="style/main_window.css">
   <script src="scripts/day-night-cycle-visualization.js"></script>
-  <script>
-    //Remove window open animation after it finishes
-    document.addEventListener('DOMContentLoaded', () => {
-      const windowWrapper = document.getElementById('window-wrapper');
-      windowWrapper.addEventListener('animationend', () => {
-        windowWrapper.classList.remove('window-open-animation');
-        console.log('Animation ended, removed animation style');
-      });
-    });
-  </script>
 </head>
 
 <body>
+<!--Ghost titlebar for dragging the window-->
+<div class="titlebar titlebar-ghost">
+  <div class="title">MARS ROVER NAVIGATION SYSTEM</div>
+  <div class="window-controls">
+    <button onclick="window.api.minimize()">—</button>
+    <button onclick="window.api.close()">X</button>
+  </div>
+</div>
 
 <div class="window-wrapper window-open-animation" id="window-wrapper">
   <div class="window-border-wrapper">
     <div class="app-wrapper">
       <div class="titlebar">
           <div class="title">MARS ROVER NAVIGATION SYSTEM</div>
-          <div class="window-controls">
-            <button onclick="window.api.minimize()">—</button>
-            <button onclick="window.api.close()">X</button>
-          </div>
       </div>
       <div class="day-night-visualization-wrapper" id="day-night-visualization-wrapper">
           <div class="day-night-visualization" id="day-night-visualization">
@@ -36,8 +30,22 @@
           </div>
       </div>
       <div class="window-content">
-        <div class="map-container">
+        <div class="flex-container-row map-section">
+          <div class="flex-container-row">
+            <div class="dash-item-sidebar">
+              <div class="vertical-bar-container">
+                <div class="vertical-bar">100%</div>
+              </div>
+            </div>
+            <div class="dash-item-sidebar"></div>
+          </div>
+          <div class="map-container">
           <!--Map goes here-->
+          </div>
+          <div class="flex-container-row">
+            <div class="dash-item"></div>
+            <div class="dash-item"></div>
+          </div>
         </div>
         <div class="container" style="margin-top: 20px;">
           <div class="panel">
