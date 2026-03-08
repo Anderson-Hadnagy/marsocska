@@ -1,0 +1,422 @@
+/*VARIABLES*/
+:root {
+  --border-color: #006eff;
+  --main-color: rgb(0, 110, 255);
+  --main-color-neon: rgb(127, 181, 252);
+  --main-color-transparent: rgba(0, 110, 255, 0.5);
+  --main-color-transparent-bg: rgba(0, 110, 255, 0.2);
+  --debug-color: #ff0000be;
+  --main-bg-color: rgb(0, 0, 0);
+  --content-bg-color: rgb(2, 8, 24);
+  --border-width: 2px;
+  /*Border*/
+  --cut-size-outer: 25px;
+  --cut-size-inner: calc(var(--cut-size-outer) - (var(--border-width) * 0.5858));
+}
+
+
+body {
+  margin: 0;
+  font-family: 'Conthrax';
+  color: #ffffff;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 20px;
+}
+/*For debug*/
+.test
+{
+  background-color: var(--debug-color);
+}
+
+/*WINDOW*/
+.window-wrapper {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 8px var(--main-color-transparent));
+}
+
+.window-open-animation {
+  animation: window-open 0.5s ease-out 1;
+}
+
+.window-border-wrapper {
+  background: var(--border-color);
+  padding: var(--border-width);
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+      
+  /*Cut Corners*/
+  clip-path: polygon(
+    var(--cut-size-outer) 0, 
+    100% 0, 
+    100% calc(100% - var(--cut-size-outer)), 
+    calc(100% - var(--cut-size-outer)) 100%, 
+    0 100%, 
+    0 var(--cut-size-outer)
+  );
+}
+
+.app-wrapper {
+  background: var(--main-bg-color);
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+
+  /*Cut inner*/
+  clip-path: polygon(
+    var(--cut-size-inner) 0, 
+    100% 0, 
+    100% calc(100% - var(--cut-size-inner)), 
+    calc(100% - var(--cut-size-inner)) 100%, 
+    0 100%, 
+    0 var(--cut-size-inner)
+  );
+}
+
+/*WINDOW TITLEBAR*/
+
+.titlebar {
+  min-height: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  background: var(--main-color-transparent-bg);
+  -webkit-app-region: drag;
+  border-bottom: 1px solid var(--main-color-transparent);
+  box-sizing: border-box;
+  position: relative;
+  z-index: 900;
+}
+
+.titlebar-ghost{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin-top: 22px;
+  margin-left: 22px;
+  margin-right: 22px;
+  width: calc(100% - 42px);
+  background: none;
+  backdrop-filter: none;
+  border: none;
+  opacity: 0;
+  animation: fade 0.5s linear 0.5s forwards;
+}
+
+.titlebar-ghost>.title{
+  opacity: 0;
+}
+
+/*TITLEBAR ELEMENTS*/
+.title {
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.window-controls {
+  display: flex;
+  gap: 10px;
+  -webkit-app-region: no-drag;
+}
+
+.window-controls button {
+  background: transparent;
+  border: 1px solid var(--main-color-transparent);
+  color: var(--main-color-transparent);
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.window-controls button:hover {
+  background: var(--main-color);
+  color: #000;
+  box-shadow: 0 0 10px var(--main-color);
+}
+
+
+.window-content{
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  background: var(--content-bg-color);
+  box-sizing: border-box;
+}
+
+/*WINDOW CONTENTS*/
+
+.container{
+  border: 1px solid var(--main-color-transparent);
+  background: var(--main-color-transparent-bg);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 10px var(--main-color-transparent);
+}
+
+.panel {
+  margin: 20px;
+  padding: 30px;
+
+}
+
+.glow {
+  text-shadow: 0 0 8px var(--main-color-transparent);
+  font-size: 24px;
+}
+
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--main-color-transparent);
+  animation: pulse 3s infinite;
+  pointer-events: none;
+}
+
+.segment14 {
+  font-family: DSEG14Classic;
+  font-size: 20px;
+  color: var(--main-color-neon);
+  text-shadow: 0 0 5px var(--main-color-neon);
+}
+
+.segment7{
+  font-family: DSEG7Classic;
+  font-size: 20px;
+  color: var(--main-color-neon);
+  text-shadow: 0 0 10px var(--main-color-neon);
+  text-shadow: 0 0 5px var(--main-color-neon);
+  font-weight: bold;
+}
+
+/*MAP*/
+
+.map-container {
+  width: 600px;
+  border: 1px solid var(--main-color-transparent);
+  background: var(--main-color-transparent-bg);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 10px var(--main-color-transparent);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/*DASHBOARD*/
+
+.map-section{
+  max-height: 400px;
+}
+
+.flex-container-col{
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-container-row{
+  display: flex;
+  flex-direction: row;
+}
+
+.dashboard {
+  width: 100%;
+  height: 160px;
+  display: flex;
+}
+
+.dash-col {
+  flex: 1;
+  border: 1px solid var(--main-color-transparent);
+  margin: 0 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dash-row {
+  flex: 1;
+  border: 1px solid var(--main-color-transparent);
+  margin: 0 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.dash-item {
+  flex: auto;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.dash-item-sidebar{
+  border: 1px solid var(--main-color-transparent);
+  background: var(--main-color-transparent-bg);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 10px var(--main-color-transparent);
+  padding: 10px;
+}
+
+.vertical-bar-container {
+  width: 20px;
+  border: 1px solid var(--main-color-transparent);
+  height: 100%;
+}
+
+.vertical-bar{
+  width: 100%;
+  margin-top: auto;
+  height: 100%;
+  writing-mode: vertical-lr;
+  text-align: center;
+  background-color: var(--border-color);
+}
+
+/*COOL VISUALIZATIONS*/
+
+.day-night-visualization-wrapper {
+  position: absolute;
+  top: 42px;
+  width: 100%;
+  height: 50%;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+.day-night-visualization {
+  position: absolute;
+  width: 100%;
+  height: 200%;
+  pointer-events: none;
+  clip-path: inset(0 0 50% 0); /*Display only the half of this very very cool visualizaton yee*/
+}
+
+.sun {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: radial-gradient(circle at center, #ffdd00, #ff9900);
+  border-radius: 50%;
+  box-shadow: 0 0 30px #ffdd00;
+}
+
+.moon {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: radial-gradient(circle at center, #ffffff, #cccccc);
+  border-radius: 50%;
+  box-shadow: 0 0 30px #ffffff;
+}
+
+/*ANIMATIONS*/
+
+@keyframes pulse {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+@keyframes window-open {
+  0% {
+    transform: scale(0, 0);
+  }
+  50% {
+    transform: scale(1, 0.01);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/*FONTS*/
+@font-face{
+    font-family: Conthrax;
+    src: url('./fonts/Conthrax-SemiBold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: DSEG14Classic;
+  src: url('./fonts/DSEG14-Classic/DSEG14Classic-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: DSEG14Classic;
+  src: url('./fonts/DSEG14-Classic/DSEG14Classic-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: DSEG14Classic;
+  src: url('./fonts/DSEG14-Classic/DSEG14Classic-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: DSEG14Classic;
+  src: url('./fonts/DSEG14-Classic/DSEG14Classic-Light.ttf') format('truetype');
+  font-weight: 300; 
+  font-style: normal;
+}
+
+@font-face {
+  font-family: DSEG14Classic;
+  src: url('./fonts/DSEG14-Classic/DSEG14Classic-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: DSEG7Classic;
+  src: url('./fonts/DSEG7-Classic/DSEG7Classic-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: DSEG7Classic;
+  src: url('./fonts/DSEG7-Classic/DSEG7Classic-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: DSEG7Classic;
+  src: url('./fonts/DSEG7-Classic/DSEG7Classic-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: DSEG7Classic;
+  src: url('./fonts/DSEG7-Classic/DSEG7Classic-Light.ttf') format('truetype');
+  font-weight: 300; 
+  font-style: normal;
+}
+
+@font-face {
+  font-family: DSEG7Classic;
+  src: url('./fonts/DSEG7-Classic/DSEG7Classic-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
