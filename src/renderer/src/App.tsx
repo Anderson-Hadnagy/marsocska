@@ -21,11 +21,9 @@ INITIAL_GRID.forEach((row, y) => {
 const START_POS: Point = { x: startX, y: startY }
 
 export default function App() {
-  // Setup & Limits
   const [hasStarted, setHasStarted] = useState(false)
   const [timeLimitHours, setTimeLimitHours] = useState<number>(24)
   
-  // Rover State
   const [grid, setGrid] = useState<string[][]>(INITIAL_GRID)
   const [roverPos, setRoverPos] = useState<Point>(START_POS)
   const [battery, setBattery] = useState<number>(100)
@@ -33,19 +31,16 @@ export default function App() {
   const [inventory, setInventory] = useState({ B: 0, Y: 0, G: 0 })
   const [totalDistance, setTotalDistance] = useState<number>(0)
   
-  // Simulation Control
   const [isRunning, setIsRunning] = useState(false)
   const [currentSpeed, setCurrentSpeed] = useState<number>(0)
   const [status, setStatus] = useState<string>('Ready') 
   const [logs, setLogs] = useState<string[]>([])
 
-  // DOM Refs for Day/Night Cycle
   const sunRef = useRef<HTMLDivElement>(null)
   const moonRef = useRef<HTMLDivElement>(null)
   const visRef = useRef<HTMLDivElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
   
-  // We start the visual time at 12 (Sunrise) instead of 0 (Sunset)
   const timeRef = useRef(12) 
 
   const stateRef = useRef({ 
@@ -67,7 +62,6 @@ export default function App() {
     setLogs((prev) => [...prev, msg].slice(-12)) 
   }
 
-  // --- PERFECTED DAY/NIGHT CYCLE LOGIC ---
   const updateSky = () => {
     if (sunRef.current && moonRef.current && visRef.current && wrapperRef.current) {
       const sunSize = 50
@@ -286,11 +280,9 @@ export default function App() {
     )
   }
 
-  // MAIN DASHBOARD LAYOUT
   return (
     <div className="window-content flex-container-col" style={{ position: 'relative', width: '100%', height: '100%', boxSizing: 'border-box', overflow: 'hidden' }}>
       
-      {/* ORIGINAL JS DAY/NIGHT CYCLE CONTROLLED BY REACT */}
       <div 
         ref={wrapperRef}
         className="day-night-visualization-wrapper" 
@@ -322,7 +314,6 @@ export default function App() {
          </div>
       </div>
 
-      {/* Map & Logs Section */}
       <div className="flex-container-row map-section" style={{ position: 'relative', zIndex: 10, flex: 1, minHeight: 0 }}>
         <div className="flex-container-row">
           <div className="dash-item-sidebar">
@@ -332,7 +323,6 @@ export default function App() {
           </div>
         </div>
         
-        {/* Responsive Aspect-Ratio Map Container */}
         <div 
           className="map-container" 
           style={{ 
@@ -346,7 +336,6 @@ export default function App() {
             boxSizing: 'border-box' 
           }}
         >
-          {/* This inner wrapper forces the map to be a perfect square that shrinks/grows to the screen height! */}
           <div style={{ height: '100%', maxHeight: '100%', aspectRatio: '1 / 1', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
             <MarsMap grid={grid} roverPos={roverPos} />
           </div>
@@ -362,7 +351,6 @@ export default function App() {
         </div>
       </div>
 
-      {/* Bottom Dashboard / Telemetry Section */}
       <div className="container" style={{ position: 'relative', zIndex: 10, marginTop: '15px', flexShrink: 0 }}>
         <div className="panel" style={{ padding: '15px' }}>
           <div className="dashboard">
